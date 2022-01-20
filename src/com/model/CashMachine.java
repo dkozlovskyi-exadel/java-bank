@@ -1,11 +1,27 @@
 package com.model;
 
+import java.util.Map;
+
 public class CashMachine {
     // Class with user QNA;
     UserAnswersScanner userAnswersScanner = new UserAnswersScanner();
     // Class with banknotes amount and methods to manipulate with them;
     BanknotesCounter banknotesCounter = new BanknotesCounter();
+    // Banknotes collection;
+    Map<Integer, Integer> counterMap = banknotesCounter.banknotesCounter;
     private final int[] ALLOWED_BANKNOTES = banknotesCounter.ALLOWED_BANKNOTES;
+
+
+    // Info about availability of banknotes at CashMachine;
+    public void cache() {
+        for (Map.Entry<Integer, Integer> item : counterMap.entrySet()) {
+
+            int banknoteAmount = item.getValue();
+            int banknoteNominal = item.getKey();
+
+            System.out.println("Nominal: " + banknoteNominal + ", Amount " + banknoteAmount);
+        }
+    }
 
     /**
      * Check if out CashMachine supports the introduction of banknotes from {@link #ALLOWED_BANKNOTES};
