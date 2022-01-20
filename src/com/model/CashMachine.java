@@ -10,7 +10,7 @@ public class CashMachine {
     // Banknotes collection;
     Map<Integer, Integer> counterMap = banknotesCounter.banknotesCounter;
     private final int[] ALLOWED_BANKNOTES = banknotesCounter.ALLOWED_BANKNOTES;
-
+    BanknotesHistory banknotesHistory = new BanknotesHistory(ALLOWED_BANKNOTES);
 
     // Info about availability of banknotes at CashMachine;
     public void cache() {
@@ -20,6 +20,20 @@ public class CashMachine {
             int banknoteNominal = item.getKey();
 
             System.out.println("Nominal: " + banknoteNominal + ", Amount " + banknoteAmount);
+        }
+    }
+
+    public void stat() {
+        Map<Integer, BanknotesHistory.BanknoteHistoryData> historyMap = banknotesHistory.getHistoryMap();
+        for (Map.Entry<Integer, BanknotesHistory.BanknoteHistoryData> banknote : historyMap.entrySet()) {
+
+            int banknoteNominal = banknote.getKey();
+            BanknotesHistory.BanknoteHistoryData banknoteData = banknote.getValue();
+
+            System.out.println("Nominal: " + banknoteNominal +
+                    ", Received: " + banknoteData.banknotesReceived +
+                    ", PaidOut: " + banknoteData.banknotesPaidOut +
+                    ", Available: " + banknoteData.availableQuantity);
         }
     }
 
@@ -36,6 +50,7 @@ public class CashMachine {
             if (banknote == allowedBanknote) {
                 resultText = "Банкнота добавлена";
                 banknotesCounter.incrementBanknoteCounter(banknote);
+                banknotesHistory.banknoteReceiptWriteInHistory(banknote);
                 break;
             }
         }
@@ -74,6 +89,7 @@ public class CashMachine {
         for (int leftToPay = sumToBePaid; leftToPay > 0; leftToPay -= banknote) {
             banknote = banknotesCounter.useBiggestBanknotesFirst(leftToPay);
             banknotesCounter.decrementBanknoteCounter(banknote);
+            banknotesHistory.banknotePayoutWriteInHistory(banknote);
         }
     }
 }
