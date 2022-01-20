@@ -22,4 +22,54 @@ public class BanknotesCounter {
         banknotesCounter.put(banknote, ++banknoteAmount);
         totalSum += banknote;
     }
+
+    public void decrementBanknoteCounter(int banknote) {
+        Integer banknoteAmount = banknotesCounter.get(banknote);
+        banknotesCounter.put(banknote, --banknoteAmount);
+        totalSum -= banknote;
+    }
+
+    public int useBiggestBanknotesFirst(int leftToPay) {
+        int biggestBanknote = 0;
+
+        for (Map.Entry<Integer, Integer> item : banknotesCounter.entrySet()) {
+
+            int banknoteAmount = item.getValue();
+            int banknoteNominal = item.getKey();
+
+            if (banknoteAmount > 0 && banknoteNominal > biggestBanknote) {
+                biggestBanknote = banknoteNominal;
+            }
+        }
+        // If you need to add a smaller denomination, to pay out the desired amount.
+        if (biggestBanknote > leftToPay) {
+            return findNearestBanknote(leftToPay);
+        }
+
+        return biggestBanknote;
+    }
+
+    /**
+     * Use recursion. If there is no such currency in {@link #banknotesCounter} or the currency is not available -
+     * add + 1 and repeat the loop;
+     *
+     * @param leftToPay - How much more is needed to pay the full amount;
+     * @return The desired denomination of the banknote or the closest one in a big way;
+     */
+    private int findNearestBanknote(int leftToPay) {
+        int banknoteAmount;
+        int banknoteNominal = leftToPay;
+
+        if (banknotesCounter.containsKey(banknoteNominal)) {
+            banknoteAmount = banknotesCounter.get(banknoteNominal);
+
+            if (banknoteAmount > 0) {
+                return banknoteNominal;
+            } else {
+                return findNearestBanknote(++banknoteNominal);
+            }
+        } else {
+            return findNearestBanknote(++banknoteNominal);
+        }
+    }
 }
