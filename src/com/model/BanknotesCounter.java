@@ -5,13 +5,12 @@ import java.util.Map;
 
 public class BanknotesCounter {
     // Allowed banknotes to be deposited;
-    public final int[] ALLOWED_BANKNOTES = {1, 3, 5, 10, 20, 100};
+    public final byte[] ALLOWED_BANKNOTES = {1, 3, 5, 10, 20, 100};
     // The key is the denomination of the banknote. Value - its quantity in stock;
     public Map<Integer, Integer> banknotesMap = new HashMap<>();
-    public int totalSum;
+    public int totalSum = 0;
 
     public BanknotesCounter() {
-        totalSum = 0;
         for (int allowedBanknote : ALLOWED_BANKNOTES) {
             banknotesMap.put(allowedBanknote, 0);
         }

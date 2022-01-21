@@ -9,18 +9,19 @@ public class CashMachine {
     BanknotesCounter banknotesCounter = new BanknotesCounter();
     // Banknotes collection;
     Map<Integer, Integer> banknotesMap = banknotesCounter.banknotesMap;
-    private final int[] ALLOWED_BANKNOTES = banknotesCounter.ALLOWED_BANKNOTES;
+    private final byte[] ALLOWED_BANKNOTES = banknotesCounter.ALLOWED_BANKNOTES;
     BanknotesHistory banknotesHistory = new BanknotesHistory(ALLOWED_BANKNOTES);
 
     // Info about availability of banknotes at CashMachine;
     public void cache() {
+        StringBuilder cacheResult = new StringBuilder();
         for (Map.Entry<Integer, Integer> item : banknotesMap.entrySet()) {
 
             int banknoteAmount = item.getValue();
             int banknoteNominal = item.getKey();
-
-            System.out.println("Nominal: " + banknoteNominal + ", Amount " + banknoteAmount);
+            cacheResult.append("Nominal: ").append(banknoteNominal).append(", Amount ").append(banknoteAmount).append("\n");
         }
+        System.out.println(cacheResult + "Money: " + banknotesCounter.totalSum);
     }
 
     public void stat() {

@@ -9,7 +9,7 @@ public class BanknotesHistory {
     // Init historyMap
     // key - banknoteNominal
     // value - BanknoteHistoryData class
-    BanknotesHistory(int[] allowedBanknotes) {
+    BanknotesHistory(byte[] allowedBanknotes) {
         for (int banknoteNominal : allowedBanknotes) {
             banknotesHistoryMap.put(banknoteNominal, new BanknoteHistoryData());
         }
