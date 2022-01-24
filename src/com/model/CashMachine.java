@@ -63,23 +63,26 @@ public class CashMachine {
      *
      * @param sumToBePaid - The amount the customer needs to receive;
      */
-    public void give(int sumToBePaid) {
+    public void give(int sumToBePaid, Account currentUserAccount) {
         int totalSumInMachine = banknotesCounter.totalSum;
-        int paymentSum;
+        int userAccountCash = currentUserAccount.infoAboutCash();
+        int availableSumToBePaid;
 
         //If we do not have the required amount in stock;
-        if (totalSumInMachine < sumToBePaid) {
-            boolean userAnswer = userAnswersScanner.ifNotEnoughMoneyInMachine(totalSumInMachine);
+        if (totalSumInMachine < sumToBePaid || userAccountCash < sumToBePaid) {
+
+            availableSumToBePaid = Math.min(totalSumInMachine, userAccountCash);
+
+            boolean userAnswer = userAnswersScanner.ifNotEnoughMoneyToBePaid(availableSumToBePaid);
             if (!userAnswer) {
                 return;
             }
-            // Agreed - pays everything we have;
-//            useBiggestBanknoteFistOperation(totalSumInMachine);
-            useBanknotesEvenlyStrategy(totalSumInMachine);
         } else {
-//            useBiggestBanknoteFistOperation(sumToBePaid);
-            useBanknotesEvenlyStrategy(sumToBePaid);
+            availableSumToBePaid = sumToBePaid;
         }
+//            useBiggestBanknoteFistOperation(availableSumToBePaid);
+        useBanknotesEvenlyStrategy(availableSumToBePaid);
+        currentUserAccount.getCash(availableSumToBePaid);
     }
 
     /**

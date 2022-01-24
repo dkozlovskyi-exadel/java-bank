@@ -7,9 +7,14 @@ public class Account {
         this.userCash = initCash;
     }
 
+    public int infoAboutCash() {
+        return userCash;
+    }
+
     public void putCash() {
     }
 
-    public void getCash() {
+    public void getCash(int sumToBePaid) {
+        this.userCash -= sumToBePaid;
     }
 }
