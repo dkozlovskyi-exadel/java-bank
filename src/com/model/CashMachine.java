@@ -71,12 +71,19 @@ public class CashMachine {
         //If we do not have the required amount in stock;
         if (totalSumInMachine < sumToBePaid || userAccountCash < sumToBePaid) {
 
-            availableSumToBePaid = Math.min(totalSumInMachine, userAccountCash);
+            boolean userAnswer;
+            if (totalSumInMachine < userAccountCash) {
+                availableSumToBePaid = totalSumInMachine;
+                userAnswer = userAnswersScanner.ifNotEnoughMoneyToBePaid(availableSumToBePaid, "CashMachine");
+            } else {
+                availableSumToBePaid = userAccountCash;
+                userAnswer = userAnswersScanner.ifNotEnoughMoneyToBePaid(availableSumToBePaid, "userAccount");
+            }
 
-            boolean userAnswer = userAnswersScanner.ifNotEnoughMoneyToBePaid(availableSumToBePaid);
             if (!userAnswer) {
                 return;
             }
+            
         } else {
             availableSumToBePaid = sumToBePaid;
         }
