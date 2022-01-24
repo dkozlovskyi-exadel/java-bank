@@ -19,10 +19,10 @@ public class AccountsCollection {
 
     private Account addNewUser() {
         Account newUserAccount;
-        System.out.println("Need to sign up! Write your id one more time");
+        System.out.println("Need to sign up! Provide your id!");
         String newUserId = new Scanner(System.in).nextLine();
 
-        newUserAccount = new Account(1000);
+        newUserAccount = new Account(1000, newUserId);
         activeUsersMap.put(newUserId, newUserAccount);
         return newUserAccount;
     }

@@ -12,6 +12,14 @@ public class CashMachine {
     private final byte[] ALLOWED_BANKNOTES = banknotesCounter.ALLOWED_BANKNOTES;
     BanknotesHistory banknotesHistory = new BanknotesHistory(ALLOWED_BANKNOTES);
 
+    Logger logger;
+    String id;
+
+    public CashMachine(String MachineId) {
+        this.logger = new Logger();
+        this.id = MachineId;
+    }
+
     // Info about availability of banknotes at CashMachine;
     public void cache() {
         StringBuilder cacheResult = new StringBuilder();
@@ -44,7 +52,10 @@ public class CashMachine {
      *
      * @param banknote - Banknote nominal;
      */
-    public void put(int banknote) {
+    public void put(int banknote, String currentUserId) {
+
+        logger.logOperation(currentUserId, "put", banknote, this.id);
+
         String resultText = "Banknote not accepted. Try again";
 
         for (int allowedBanknote : ALLOWED_BANKNOTES) {
@@ -65,7 +76,7 @@ public class CashMachine {
      */
     public void give(int sumToBePaid, Account currentUserAccount) {
         int totalSumInMachine = banknotesCounter.totalSum;
-        int userAccountCash = currentUserAccount.infoAboutCash();
+        int userAccountCash = currentUserAccount.getCashInfo();
         int availableSumToBePaid;
 
         //If we do not have the required amount in stock;
@@ -83,7 +94,7 @@ public class CashMachine {
             if (!userAnswer) {
                 return;
             }
-            
+
         } else {
             availableSumToBePaid = sumToBePaid;
         }

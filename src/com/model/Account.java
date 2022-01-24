@@ -2,12 +2,14 @@ package com.model;
 
 public class Account {
     public int userCash;
+    public String userId;
 
-    public Account(int initCash) {
+    public Account(int initCash, String userId) {
         this.userCash = initCash;
+        this.userId = userId;
     }
 
-    public int infoAboutCash() {
+    public int getCashInfo() {
         return userCash;
     }
 
